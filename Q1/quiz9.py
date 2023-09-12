@@ -10,5 +10,19 @@ def for_to_sort(s):
                 s[k] = t
 
 
-for_to_sort(L)
+def while_to_sort(s):
+    first = 0
+    left = 0
+    right = len(s)-1
+    while left < right :
+        first = s[left]
+        s[left] = s[right]
+        s[right] = first
+        left += 1
+        right -= 1
+
+
+# for_to_sort(L)
+# n = while_to_sort(L)
+while_to_sort(L)
 print(L)
