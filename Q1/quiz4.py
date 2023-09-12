@@ -1,4 +1,2 @@
-print("请输入三个数")
-l1 = input().split(" ")
-l1.sort()
-print(l1)
+
+print(chr(0x2605) + "数据科学与工程导论" + chr(0x2605))
