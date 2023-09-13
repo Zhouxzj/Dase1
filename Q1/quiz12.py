@@ -17,6 +17,6 @@ def cube_root(num):
 print("请输入一个数")
 n = float(input())
 if n < 0:
-    print('%.6f' % -cube_root(n))
+    print('%.5f' % -cube_root(n))
 else:
-    print('%.6f' % cube_root(n))
+    print('%.5f' % cube_root(n))
