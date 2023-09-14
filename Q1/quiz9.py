@@ -14,7 +14,7 @@ def while_to_sort(s):
     first = 0
     left = 0
     right = len(s)-1
-    while left < right :
+    while left < right:
         first = s[left]
         s[left] = s[right]
         s[right] = first
