@@ -1,14 +1,13 @@
 import requests
-import pprint
 import re
 from bs4 import BeautifulSoup
 import pandas as pd
 
+# 用于应对反爬机制，作为请求头
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT10.0; Win64; x64)AppleWebKit/537.36(KHTML, '
                   'like Gecko)Chrome/120.0.0.0Safari/537.36 Edg/120.0.0.0'
 }
-# 用于应对反爬机制，作为请求头
 
 # 构造分页数字列表
 page_indexes = range(0, 250, 25)
@@ -57,14 +56,18 @@ def parse_single_html(html_text):
         # 获取了span标签的class的值
         rating_num = stars[1].get_text()
         comments = stars[3].get_text()
-        years = re.search(pattern=r"\d{4}", string=OtherInfo)
-        something = re.search(pattern=r"/\d{4}.(\/).+(\/).+/", string=OtherInfo)
-        thing = re.compile(r"\d{4}.(\/).")
-        location = thing.sub("", something.group())
-        country = re.compile(r".(\/).+")
-        nation = country.sub("", location)
-        kind = re.compile(r".+(\/).")
-        types = kind.sub("", location)
+        years = re.search(pattern=r"\d{4}", string=OtherInfo).group()
+        something = re.search(pattern=r"\d{4}.(\/).+(\/).+", string=OtherInfo)
+        thing = re.compile(pattern=r"\d{4}.(\/).")
+        if something is None:
+            # 异常处理
+            location = "无信息"
+        else:
+            location = thing.sub("", something.group())
+        country = re.compile(pattern=r".(\/).+")
+        nation = country.sub("", string=location)
+        kind = re.compile(pattern=r".+(\/).")
+        types = kind.sub("", string=location)
 
         datas.append({
             "rank": rank,

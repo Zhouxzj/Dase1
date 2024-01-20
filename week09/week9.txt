@@ -1,0 +1,70 @@
+3:
+-- 创建新的数据库
+CREATE DATABASE IF NOT EXISTS new database;
+
+-- 切换到新数据库
+USE new database;
+
+-创建user表
+CREATE TABLE IF NOT EXISTS user (
+    id INT AUTO INCREMENT PRIMARY KEY
+    name VARCHAR(255)NOT NUL,
+    sex VARCHAR(10),
+    age INT,
+    phone VARCHAR(20)
+);
+
+-- 插入数据
+INSERT INTO user (name, sex, age, phone) VALUES
+('John Doe',v'Male', 25, '123-456-7890'),
+('Jane Smith', 'Female', 30, '987-654-3210'),
+('Bob Johnson', 'Male', 22, '555-123-4567');
+
+4:
+SELECT * FROM user
+WHERE age BETWEEN 20 AND 30;
+
+5:
+DELETE FROM user
+WHERE name LIKE '%张%';
+
+6:
+SELECT AVG(age) AS average_age FROM user;
+
+7:
+SELECT * FROM user
+WHERE age BETWEEN 20 AND 30
+  AND name LIKE '%张%'
+ORDER BY age DESC;
+
+8:
+-- 创建 team 表
+CREATE TABLE team (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    teamName VARCHAR(255) NOT NULL
+);
+-- 创建 score 表
+CREATE TABLE score (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    teamid INT,
+    userid INT,
+    score INT,
+    FOREIGN KEY (teamid) REFERENCES team( id),
+    FOREIGN KEY (userid) REFERENCES user(id)
+    );
+
+9:
+-- 将 user 表, score 表和 team 表连接起来。然后, 通过 WHERE 子句筛选出 teamName 为"ECNU"且年龄小于 20 的用户
+SELECT user.*
+FROM user
+JOIN score ON user.id = score.userid
+JOIN team ON score.teamid = team.id
+WHERE team.teamName = 'ECNU' AND user.age < 20;
+
+10:
+-- 使用 COALESCE 函数将可能的 null 值转换为 0
+SELECT team.teamName, COALESCE(SUM(score.score), 0) AS totalScore
+FROM team
+LEFT JOIN score ON team.id = score.teamid
+WHERE team.teamName = 'ECNU'
+GROUP BY team.teamName;
